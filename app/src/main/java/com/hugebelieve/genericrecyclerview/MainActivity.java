@@ -1,8 +1,13 @@
 package com.hugebelieve.genericrecyclerview;
 
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +18,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
+import com.hugebelieve.genericrecyclerview.databinding.HomeRecyclerviewBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    List<Pair<String,String>> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Contact me on bishal@hugebelieve.com", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -40,6 +53,85 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Function to initiate the RecyclerView
+        recyclerViewInIt();
+    }
+
+    public void addRecyclerviewData(List<Pair<String,String>> data){
+        data.add(new Pair<String, String>("The Meg (2018)",
+                "Slender Man (2018), " +
+                        "Jonas Taylor must confront his fears to save those trapped in a sunken submersible."));
+        data.add(new Pair<String, String>("Slender Man (2018)",
+                "In a small town in Massachusetts, a group of friends, fascinated by the internet lore of the Slender Man, " +
+                        "attempt to prove that he doesn't actually exist - until one of them mysteriously goes missing."));
+        data.add(new Pair<String, String>("Dog Days (2018)",
+                "Dog Days follows a group of interconnected people in " +
+                        "Los Angeles who are brought together by their lovable canine counterparts."));
+        data.add(new Pair<String, String>("Madeline's Madeline (2018)",
+                "A theater director's latest project takes on a life of its own " +
+                        "when her young star takes her performance too seriously."));
+        data.add(new Pair<String, String>("A Prayer Before Dawn (2017)",
+                "The true story of an English boxer incarcerated in one of Thailand's most notorious prisons " +
+                        "as he fights in Muay Thai tournaments to earn his freedom."));
+    }
+
+    public void recyclerViewInIt(){
+        //This is a temporary data set to fill our recycler view
+        data = new ArrayList<>();
+        //Lets fill it with some data from IMDB
+        addRecyclerviewData(data);
+
+        //Now the recycler view
+        RecyclerView recyclerView = findViewById(R.id.main_recyclerview);
+
+        //Lets set some default layout for our recycler view
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        //Our main content of recycler view adapter starts here
+
+        //Lets name our new adapter for recycler view
+        GenericRecyclerViewAdapter genericAdapter;
+
+        //Lets initialise it
+        genericAdapter = new GenericRecyclerViewAdapter(R.layout.home_recyclerview,
+                new GenericRecyclerViewAdapter.RecyclerViewBinder() {
+                    @Override
+                    public int ReturnDataSetSizeForAdapter() {
+                        //here we have to pass the length or size of our data set
+                        return data.size();
+                    }
+
+                    @Override
+                    public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
+                        //This method gets called when each row our recycler view gets binded with the UI
+                        //First we have to get binding variable for our recycler view itself
+                        //HomeRecyclerviewBinding gets auto created by Android Data Binding Library
+                        HomeRecyclerviewBinding homeRecyclerviewBinding = (HomeRecyclerviewBinding) bindingToUse;
+
+                        //We can also have the position of the current recycler view row item
+                        int holderPosition = holder.getAdapterPosition();
+
+                        //Initialise all the items inside recycler view as per your needs
+                        initialiseEachRoeItem(homeRecyclerviewBinding, holderPosition);
+
+                        //That's it
+                    }
+                });
+
+        //lastly lets set this adapter to our recycler view
+        recyclerView.setAdapter(genericAdapter);
+    }
+
+    public void initialiseEachRoeItem(HomeRecyclerviewBinding homeRecyclerviewBinding, int holderPosition){
+        //Lets get appropriate data from our data set
+        Pair<String,String> dataForCurrentRow = data.get(holderPosition);
+
+        //Lets set these values in UI inside recycler view row item
+        homeRecyclerviewBinding.setPosition(holderPosition); //This can be useful for other data binding actions
+        homeRecyclerviewBinding.title.setText(dataForCurrentRow.first);
+        homeRecyclerviewBinding.description.setText(dataForCurrentRow.second);
     }
 
     @Override
@@ -80,17 +172,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_vertical) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_horizontal) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_grid) {
 
         }
 
