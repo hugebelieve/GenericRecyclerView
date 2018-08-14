@@ -2,21 +2,19 @@ package com.hugebelieve.genericrecyclerview;
 
 import android.app.Activity;
 import android.databinding.ViewDataBinding;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
-import com.hugebelieve.genericrecyclerview.databinding.VerticalLayoutBinding;
+import com.hugebelieve.genericrecyclerview.databinding.HorizontalLayoutBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VerticalViewActivity extends Activity {
+public class HorizontalViewActivity extends Activity {
 
     List<ClassModel> data;
 
@@ -33,10 +31,10 @@ public class VerticalViewActivity extends Activity {
 
     public void recyclerViewInIt(){
         RecyclerView recyclerView = findViewById(R.id.main_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
 
         GenericRecyclerViewAdapter genericAdapter;
-        genericAdapter = new GenericRecyclerViewAdapter(R.layout.vertical_layout,
+        genericAdapter = new GenericRecyclerViewAdapter(R.layout.horizontal_layout,
                 new GenericRecyclerViewAdapter.RecyclerViewBinder() {
                     @Override
                     public int ReturnDataSetSizeForAdapter() {
@@ -44,7 +42,7 @@ public class VerticalViewActivity extends Activity {
                     }
                     @Override
                     public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
-                        VerticalLayoutBinding recyclerLayoutBinding = (VerticalLayoutBinding) bindingToUse;
+                        HorizontalLayoutBinding recyclerLayoutBinding = (HorizontalLayoutBinding) bindingToUse;
                         int holderPosition = holder.getAdapterPosition();
                         initialiseEachRowItem(recyclerLayoutBinding, holderPosition);
                     }
@@ -52,10 +50,9 @@ public class VerticalViewActivity extends Activity {
         recyclerView.setAdapter(genericAdapter);
     }
 
-    public void initialiseEachRowItem(VerticalLayoutBinding recyclerLayoutBinding, int holderPosition){
+    public void initialiseEachRowItem(HorizontalLayoutBinding recyclerLayoutBinding, int holderPosition){
         ClassModel dataForCurrentRow = data.get(holderPosition);
         Picasso.get().load(dataForCurrentRow.getPhoto()).fit().centerCrop().into(recyclerLayoutBinding.photo);
         recyclerLayoutBinding.title.setText(dataForCurrentRow.getTitle());
-        recyclerLayoutBinding.description.setText(dataForCurrentRow.getDescription());
     }
 }

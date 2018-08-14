@@ -2,21 +2,23 @@ package com.hugebelieve.genericrecyclerview;
 
 import android.app.Activity;
 import android.databinding.ViewDataBinding;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
-import com.hugebelieve.genericrecyclerview.databinding.VerticalLayoutBinding;
+import com.hugebelieve.genericrecyclerview.databinding.GridLayoutBinding;
+import com.hugebelieve.genericrecyclerview.databinding.HorizontalLayoutBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VerticalViewActivity extends Activity {
+public class GridViewActivity extends Activity {
 
     List<ClassModel> data;
 
@@ -33,10 +35,9 @@ public class VerticalViewActivity extends Activity {
 
     public void recyclerViewInIt(){
         RecyclerView recyclerView = findViewById(R.id.main_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
-
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         GenericRecyclerViewAdapter genericAdapter;
-        genericAdapter = new GenericRecyclerViewAdapter(R.layout.vertical_layout,
+        genericAdapter = new GenericRecyclerViewAdapter(R.layout.grid_layout,
                 new GenericRecyclerViewAdapter.RecyclerViewBinder() {
                     @Override
                     public int ReturnDataSetSizeForAdapter() {
@@ -44,7 +45,7 @@ public class VerticalViewActivity extends Activity {
                     }
                     @Override
                     public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
-                        VerticalLayoutBinding recyclerLayoutBinding = (VerticalLayoutBinding) bindingToUse;
+                        GridLayoutBinding recyclerLayoutBinding = (GridLayoutBinding) bindingToUse;
                         int holderPosition = holder.getAdapterPosition();
                         initialiseEachRowItem(recyclerLayoutBinding, holderPosition);
                     }
@@ -52,10 +53,18 @@ public class VerticalViewActivity extends Activity {
         recyclerView.setAdapter(genericAdapter);
     }
 
-    public void initialiseEachRowItem(VerticalLayoutBinding recyclerLayoutBinding, int holderPosition){
-        ClassModel dataForCurrentRow = data.get(holderPosition);
-        Picasso.get().load(dataForCurrentRow.getPhoto()).fit().centerCrop().into(recyclerLayoutBinding.photo);
-        recyclerLayoutBinding.title.setText(dataForCurrentRow.getTitle());
-        recyclerLayoutBinding.description.setText(dataForCurrentRow.getDescription());
+    public void initialiseEachRowItem(GridLayoutBinding recyclerLayoutBinding, int holderPosition){
+        final ClassModel dataForCurrentRow = data.get(holderPosition);
+        Picasso.get().load(dataForCurrentRow.getPhoto()).fit().centerCrop().into(recyclerLayoutBinding.sectionImage);
+        recyclerLayoutBinding.sectionTitle.setText(dataForCurrentRow.getTitle());
+        recyclerLayoutBinding.ratingText.setText(dataForCurrentRow.getRating());
+
+        recyclerLayoutBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, dataForCurrentRow.getTitle(), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.hugebelieve.genericrecyclerview;
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
 import com.hugebelieve.genericrecyclerview.databinding.HomeRecyclerviewBinding;
 
@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Contact me on bishal@hugebelieve.com", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            Snackbar.make(view, "Contact me on bishal@hugebelieve.com", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
             }
         });
 
@@ -54,35 +54,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Function to initiate the RecyclerView
-        recyclerViewInIt();
-    }
-
-    public void addRecyclerviewData(List<Pair<String,String>> data){
-        data.add(new Pair<String, String>("The Meg (2018)",
-                "Slender Man (2018), " +
-                        "Jonas Taylor must confront his fears to save those trapped in a sunken submersible."));
-        data.add(new Pair<String, String>("Slender Man (2018)",
-                "In a small town in Massachusetts, a group of friends, fascinated by the internet lore of the Slender Man, " +
-                        "attempt to prove that he doesn't actually exist - until one of them mysteriously goes missing."));
-        data.add(new Pair<String, String>("Dog Days (2018)",
-                "Dog Days follows a group of interconnected people in " +
-                        "Los Angeles who are brought together by their lovable canine counterparts."));
-        data.add(new Pair<String, String>("Madeline's Madeline (2018)",
-                "A theater director's latest project takes on a life of its own " +
-                        "when her young star takes her performance too seriously."));
-        data.add(new Pair<String, String>("A Prayer Before Dawn (2017)",
-                "The true story of an English boxer incarcerated in one of Thailand's most notorious prisons " +
-                        "as he fights in Muay Thai tournaments to earn his freedom."));
-    }
-
-    public void recyclerViewInIt(){
         //This is a temporary data set to fill our recycler view
         data = new ArrayList<>();
         //Lets fill it with some data from IMDB
         addRecyclerviewData(data);
 
-        //Now the recycler view
+        //Function to initiate the RecyclerView
+        recyclerViewInIt();
+    }
+
+    public void recyclerViewInIt(){
+        //Now get ref of the recycler view
         RecyclerView recyclerView = findViewById(R.id.main_recyclerview);
 
         //Lets set some default layout for our recycler view
@@ -114,7 +96,7 @@ public class MainActivity extends AppCompatActivity
                         int holderPosition = holder.getAdapterPosition();
 
                         //Initialise all the items inside recycler view as per your needs
-                        initialiseEachRoeItem(homeRecyclerviewBinding, holderPosition);
+                        initialiseEachRowItem(homeRecyclerviewBinding, holderPosition);
 
                         //That's it
                     }
@@ -124,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(genericAdapter);
     }
 
-    public void initialiseEachRoeItem(HomeRecyclerviewBinding homeRecyclerviewBinding, int holderPosition){
+    public void initialiseEachRowItem(HomeRecyclerviewBinding homeRecyclerviewBinding, int holderPosition){
         //Lets get appropriate data from our data set
         Pair<String,String> dataForCurrentRow = data.get(holderPosition);
 
@@ -132,6 +114,25 @@ public class MainActivity extends AppCompatActivity
         homeRecyclerviewBinding.setPosition(holderPosition); //This can be useful for other data binding actions
         homeRecyclerviewBinding.title.setText(dataForCurrentRow.first);
         homeRecyclerviewBinding.description.setText(dataForCurrentRow.second);
+    }
+
+
+    public void addRecyclerviewData(List<Pair<String,String>> data){
+        data.add(new Pair<String, String>("The Meg (2018)",
+                "Slender Man (2018), " +
+                        "Jonas Taylor must confront his fears to save those trapped in a sunken submersible."));
+        data.add(new Pair<String, String>("Slender Man (2018)",
+                "In a small town in Massachusetts, a group of friends, fascinated by the internet lore of the Slender Man, " +
+                        "attempt to prove that he doesn't actually exist - until one of them mysteriously goes missing."));
+        data.add(new Pair<String, String>("Dog Days (2018)",
+                "Dog Days follows a group of interconnected people in " +
+                        "Los Angeles who are brought together by their lovable canine counterparts."));
+        data.add(new Pair<String, String>("Madeline's Madeline (2018)",
+                "A theater director's latest project takes on a life of its own " +
+                        "when her young star takes her performance too seriously."));
+        data.add(new Pair<String, String>("A Prayer Before Dawn (2017)",
+                "The true story of an English boxer incarcerated in one of Thailand's most notorious prisons " +
+                        "as he fights in Muay Thai tournaments to earn his freedom."));
     }
 
     @Override
@@ -171,15 +172,19 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Intent newIntent = null;
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_vertical) {
-
+            newIntent =  new Intent(this,VerticalViewActivity.class);
         } else if (id == R.id.nav_horizontal) {
-
+            newIntent =  new Intent(this,HorizontalViewActivity.class);
         } else if (id == R.id.nav_grid) {
+            newIntent =  new Intent(this,GridViewActivity.class);
+        }
 
+        if(newIntent!=null){
+            startActivity(newIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
