@@ -37,19 +37,22 @@ public class GridViewActivity extends Activity {
         RecyclerView recyclerView = findViewById(R.id.main_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         GenericRecyclerViewAdapter genericAdapter;
-        genericAdapter = new GenericRecyclerViewAdapter(R.layout.grid_layout,
-                new GenericRecyclerViewAdapter.RecyclerViewBinder() {
-                    @Override
-                    public int ReturnDataSetSizeForAdapter() {
-                        return data.size();
-                    }
-                    @Override
-                    public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
-                        GridLayoutBinding recyclerLayoutBinding = (GridLayoutBinding) bindingToUse;
-                        int holderPosition = holder.getAdapterPosition();
-                        initialiseEachRowItem(recyclerLayoutBinding, holderPosition);
-                    }
-                });
+        genericAdapter = new GenericRecyclerViewAdapter();
+        genericAdapter.setChildLayout(R.layout.grid_layout);
+        genericAdapter.setDataSizeInterface(new GenericRecyclerViewAdapter.DataSizeInterface() {
+            @Override
+            public int ReturnDataSetSizeForAdapter() {
+                return data.size();
+            }
+        });
+        genericAdapter.setRecyclerViewBinding(new GenericRecyclerViewAdapter.RecyclerViewBinder() {
+            @Override
+            public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
+                GridLayoutBinding recyclerLayoutBinding = (GridLayoutBinding) bindingToUse;
+                int holderPosition = holder.getAdapterPosition();
+                initialiseEachRowItem(recyclerLayoutBinding, holderPosition);
+            }
+        });
         recyclerView.setAdapter(genericAdapter);
     }
 

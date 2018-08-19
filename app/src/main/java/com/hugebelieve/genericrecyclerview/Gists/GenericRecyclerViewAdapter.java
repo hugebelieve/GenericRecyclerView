@@ -9,13 +9,21 @@ import android.view.ViewGroup;
 import android.databinding.ViewDataBinding;
 
 public class GenericRecyclerViewAdapter extends RecyclerView.Adapter {
-    private RecyclerViewBinder customBindingWithAllFunctions;
+    private RecyclerViewBinder recyclerViewBinder;
+    private DataSizeInterface dataSizeInterface;
     private ViewDataBinding recyclerViewBinding;
     @LayoutRes private int recyclerViewLayout;
 
-    public GenericRecyclerViewAdapter(@LayoutRes int recyclerViewLayout, RecyclerViewBinder functionBinder) {
-        this.customBindingWithAllFunctions = functionBinder;
+    public void setChildLayout(@LayoutRes int recyclerViewLayout){
         this.recyclerViewLayout = recyclerViewLayout;
+    }
+
+    public void setDataSizeInterface(DataSizeInterface dataSizeInterface){
+        this.dataSizeInterface = dataSizeInterface;
+    }
+
+    public void setRecyclerViewBinding(RecyclerViewBinder recyclerViewBinder){
+        this.recyclerViewBinder =  recyclerViewBinder;
     }
 
     @NonNull
@@ -31,7 +39,7 @@ public class GenericRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         //After recyclerView layout has been successfully binded
         //Give callback with binded view
-        this.customBindingWithAllFunctions.AfterBindingCompete(recyclerViewBinding, holder);
+        this.recyclerViewBinder.AfterBindingCompete(recyclerViewBinding, holder);
     }
 
     @Override
@@ -48,7 +56,7 @@ public class GenericRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return this.customBindingWithAllFunctions.ReturnDataSetSizeForAdapter();
+        return this.dataSizeInterface.ReturnDataSetSizeForAdapter();
     }
 
     @Override
@@ -82,8 +90,10 @@ public class GenericRecyclerViewAdapter extends RecyclerView.Adapter {
     }
     
     //Interface for generic recyclerView adapter
-    public interface RecyclerViewBinder {
+    public interface DataSizeInterface{
         int ReturnDataSetSizeForAdapter();
+    }
+    public interface RecyclerViewBinder {
         void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder);
     }
 }

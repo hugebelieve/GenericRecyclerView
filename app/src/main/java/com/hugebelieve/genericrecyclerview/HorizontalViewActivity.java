@@ -34,19 +34,22 @@ public class HorizontalViewActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
 
         GenericRecyclerViewAdapter genericAdapter;
-        genericAdapter = new GenericRecyclerViewAdapter(R.layout.horizontal_layout,
-                new GenericRecyclerViewAdapter.RecyclerViewBinder() {
-                    @Override
-                    public int ReturnDataSetSizeForAdapter() {
-                        return data.size();
-                    }
-                    @Override
-                    public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
-                        HorizontalLayoutBinding recyclerLayoutBinding = (HorizontalLayoutBinding) bindingToUse;
-                        int holderPosition = holder.getAdapterPosition();
-                        initialiseEachRowItem(recyclerLayoutBinding, holderPosition);
-                    }
-                });
+        genericAdapter = new GenericRecyclerViewAdapter();
+        genericAdapter.setChildLayout(R.layout.horizontal_layout);
+        genericAdapter.setDataSizeInterface(new GenericRecyclerViewAdapter.DataSizeInterface() {
+            @Override
+            public int ReturnDataSetSizeForAdapter() {
+                return data.size();
+            }
+        });
+        genericAdapter.setRecyclerViewBinding(new GenericRecyclerViewAdapter.RecyclerViewBinder() {
+            @Override
+            public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
+                HorizontalLayoutBinding recyclerLayoutBinding = (HorizontalLayoutBinding) bindingToUse;
+                int holderPosition = holder.getAdapterPosition();
+                initialiseEachRowItem(recyclerLayoutBinding, holderPosition);
+            }
+        });
         recyclerView.setAdapter(genericAdapter);
     }
 

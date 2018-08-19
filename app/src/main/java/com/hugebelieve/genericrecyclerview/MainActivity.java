@@ -77,30 +77,34 @@ public class MainActivity extends AppCompatActivity
         GenericRecyclerViewAdapter genericAdapter;
 
         //Lets initialise it
-        genericAdapter = new GenericRecyclerViewAdapter(R.layout.home_recyclerview,
-                new GenericRecyclerViewAdapter.RecyclerViewBinder() {
-                    @Override
-                    public int ReturnDataSetSizeForAdapter() {
-                        //here we have to pass the length or size of our data set
-                        return data.size();
-                    }
+        genericAdapter = new GenericRecyclerViewAdapter();
+        //Set the child layout you need
+        genericAdapter.setChildLayout(R.layout.home_recyclerview);
+        //An interface to dynamically pass the recyclerview item count
+        genericAdapter.setDataSizeInterface(new GenericRecyclerViewAdapter.DataSizeInterface() {
+            @Override
+            public int ReturnDataSetSizeForAdapter() {
+                return data.size();
+            }
+        });
+        //Finally interface to get a feedback after each child view is binded to UI
+        genericAdapter.setRecyclerViewBinding(new GenericRecyclerViewAdapter.RecyclerViewBinder() {
+            @Override
+            public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
+                //This method gets called when each row our recycler view gets binded with the UI
+                //First we have to get binding variable for our recycler view itself
+                //HomeRecyclerviewBinding gets auto created by Android Data Binding Library
+                HomeRecyclerviewBinding homeRecyclerviewBinding = (HomeRecyclerviewBinding) bindingToUse;
 
-                    @Override
-                    public void AfterBindingCompete(@NonNull ViewDataBinding bindingToUse, @NonNull RecyclerView.ViewHolder holder) {
-                        //This method gets called when each row our recycler view gets binded with the UI
-                        //First we have to get binding variable for our recycler view itself
-                        //HomeRecyclerviewBinding gets auto created by Android Data Binding Library
-                        HomeRecyclerviewBinding homeRecyclerviewBinding = (HomeRecyclerviewBinding) bindingToUse;
+                //We can also have the position of the current recycler view row item
+                int holderPosition = holder.getAdapterPosition();
 
-                        //We can also have the position of the current recycler view row item
-                        int holderPosition = holder.getAdapterPosition();
+                //Initialise all the items inside recycler view as per your needs
+                initialiseEachRowItem(homeRecyclerviewBinding, holderPosition);
 
-                        //Initialise all the items inside recycler view as per your needs
-                        initialiseEachRowItem(homeRecyclerviewBinding, holderPosition);
-
-                        //That's it
-                    }
-                });
+                //That's it
+            }
+        });
 
         //lastly lets set this adapter to our recycler view
         recyclerView.setAdapter(genericAdapter);
