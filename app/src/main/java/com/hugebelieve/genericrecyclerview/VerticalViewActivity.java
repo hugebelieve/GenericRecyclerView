@@ -8,10 +8,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
 import com.hugebelieve.genericrecyclerview.databinding.VerticalLayoutBinding;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,8 @@ public class VerticalViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+
+        ((TextView)findViewById(R.id.mainTitle)).setText("Vertical Recyclerview");
 
         data = new ArrayList<>();
         FillTempMovieData.fillData(data);

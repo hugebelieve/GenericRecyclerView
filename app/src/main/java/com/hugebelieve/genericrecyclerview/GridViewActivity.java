@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
 import com.hugebelieve.genericrecyclerview.databinding.GridLayoutBinding;
@@ -26,6 +27,8 @@ public class GridViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+        ((TextView)findViewById(R.id.mainTitle)).setText("Grid Recyclerview");
+
 
         data = new ArrayList<>();
         FillTempMovieData.fillData(data);

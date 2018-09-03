@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
 import com.hugebelieve.genericrecyclerview.databinding.HorizontalLayoutBinding;
@@ -22,6 +23,8 @@ public class HorizontalViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+        ((TextView)findViewById(R.id.mainTitle)).setText("Horizontal Recyclerview");
+
 
         data = new ArrayList<>();
         FillTempMovieData.fillData(data);
