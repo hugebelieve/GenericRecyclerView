@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initialization of standard stuff
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -53,11 +55,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //Initialization of standard stuff
 
         //This is a temporary data set to fill our recycler view
         data = new ArrayList<>();
         //Lets fill it with some data from IMDB
-        addRecyclerviewData(data);
+        addTemporaryData(data);
 
         //Function to initiate the RecyclerView
         recyclerViewInIt();
@@ -72,7 +75,6 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(linearLayoutManager);
 
         //Our main content of recycler view adapter starts here
-
         //Lets name our new adapter for recycler view
         GenericRecyclerViewAdapter genericAdapter;
 
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void addRecyclerviewData(List<Pair<String,String>> data){
+    public void addTemporaryData(List<Pair<String,String>> data){
         data.add(new Pair<String, String>("The Meg (2018)",
                 "Slender Man (2018), " +
                         "Jonas Taylor must confront his fears to save those trapped in a sunken submersible."));
