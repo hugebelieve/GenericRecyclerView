@@ -6,16 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-
-import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
+import com.hugebelieve.library.genericrecyclerviewadapter.GenericRecyclerViewAdapter;
 import com.hugebelieve.genericrecyclerview.databinding.GridLayoutBinding;
-import com.hugebelieve.genericrecyclerview.databinding.HorizontalLayoutBinding;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -18,8 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
 import com.hugebelieve.genericrecyclerview.databinding.HomeRecyclerviewBinding;
+import com.hugebelieve.library.genericrecyclerviewadapter.GenericRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
+import com.hugebelieve.library.genericrecyclerviewadapter.GenericRecyclerViewAdapter;
 import com.hugebelieve.genericrecyclerview.databinding.HorizontalLayoutBinding;
 import com.squareup.picasso.Picasso;
 

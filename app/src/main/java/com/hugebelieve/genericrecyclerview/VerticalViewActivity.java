@@ -2,20 +2,14 @@ package com.hugebelieve.genericrecyclerview;
 
 import android.app.Activity;
 import android.databinding.ViewDataBinding;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
-
-import com.hugebelieve.genericrecyclerview.Gists.GenericRecyclerViewAdapter;
+import com.hugebelieve.library.genericrecyclerviewadapter.GenericRecyclerViewAdapter;
 import com.hugebelieve.genericrecyclerview.databinding.VerticalLayoutBinding;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
