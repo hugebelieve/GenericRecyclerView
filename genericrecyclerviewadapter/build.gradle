@@ -26,7 +26,7 @@ ext {
     siteUrl = 'https://github.com/hugebelieve/GenericRecyclerView'
     gitUrl = 'https://github.com/hugebelieve/GenericRecyclerView.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
 
     developerId = 'hugebelieve'
     developerName = 'Bishal Biswas'
@@ -130,8 +130,8 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    user = 'hugebelieve'
+    key = ''
 
     configurations = ['archives']
     pkg {
@@ -140,12 +140,13 @@ bintray {
         desc = libraryDescription
         websiteUrl = siteUrl
         vcsUrl = gitUrl
-        licenses = allLicenses
-        dryRun = false
+        licenses = ["Apache-2.0"]
         publish = true
         override = false
         publicDownloadNumbers = true
         version {
+            released  = new Date()
+            vcsTag = '1.0.0'
             desc = libraryDescription
         }
     }
