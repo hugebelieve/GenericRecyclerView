@@ -7,5 +7,5 @@ Include the following line of code in your app gradle file
 For tutorial on how to use this library view the following video
 [Android RecyclerView initialization in just 10 lines!!!](https://www.youtube.com/watch?v=FCnnbv3p26g&t)
 
-Checkout the following Demonstration
+Checkout the following Demonstration<br/>
 ![](showcase.gif)
