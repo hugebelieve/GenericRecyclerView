@@ -9,3 +9,6 @@ For tutorial on how to use this library view the following video
 
 Checkout the following Demonstration<br/>
 ![](showcase.gif)
+
+Here is an example code for Vertical RecyclerView shown in the image
+<script src="https://gist.github.com/hugebelieve/44d8184baec23b04aeaa180db2b166bd.js"></script>
