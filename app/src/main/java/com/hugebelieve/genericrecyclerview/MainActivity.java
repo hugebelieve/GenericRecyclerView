@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Pair;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,8 +21,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.hugebelieve.genericrecyclerview.databinding.HomeRecyclerviewBinding;
 import com.hugebelieve.library.genericrecyclerviewadapter.GenericRecyclerViewAdapter;
+import com.hugebelieve.library.genericrecyclerviewadapter.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity
 
     public void recyclerViewInIt(){
         //Now get ref of the recycler view
-        RecyclerView recyclerView = findViewById(R.id.main_recyclerview);
+        final RecyclerView recyclerView = findViewById(R.id.main_recyclerview);
 
         //Lets set some default layout for our recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
         //Our main content of recycler view adapter starts here
         //Lets name our new adapter for recycler view
-        GenericRecyclerViewAdapter genericAdapter;
+        final GenericRecyclerViewAdapter genericAdapter;
 
         //Lets initialise it
         genericAdapter = new GenericRecyclerViewAdapter();
@@ -103,11 +106,43 @@ public class MainActivity extends AppCompatActivity
 
                 //Initialise all the items inside recycler view as per your needs
                 initialiseEachRowItem(homeRecyclerviewBinding, holderPosition);
-
                 //That's it
+
+                homeRecyclerviewBinding.executePendingBindings();
             }
         });
+        genericAdapter.setDragHelper(recyclerView);
+        genericAdapter.setDragLisener(new GenericRecyclerViewAdapter.RecyclerDragMovement() {
+            @Override
+            public void OnItemDismiss(int position) {
+                data.remove(position);
+                recyclerView.setAdapter(genericAdapter);
+            }
 
+            @Override
+            public void OnItemMove(int fromPosition, int toPosition) {
+                if (fromPosition < toPosition) {
+                    for (int i = fromPosition; i < toPosition; i++) {
+                        Collections.swap(data, i, i + 1);
+                    }
+                } else {
+                    for (int i = fromPosition; i > toPosition; i--) {
+                        Collections.swap(data, i, i - 1);
+                    }
+                }
+                recyclerView.setAdapter(genericAdapter);
+            }
+
+            @Override
+            public void OnSelected(int position) {
+
+            }
+
+            @Override
+            public void OnClear(int position) {
+
+            }
+        });
         //lastly lets set this adapter to our recycler view
         recyclerView.setAdapter(genericAdapter);
     }
